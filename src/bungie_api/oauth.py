@@ -24,10 +24,10 @@ async def fetch_token(code: str) -> TokenModel:
     return TokenModel(**_)
 
 
-async def refresh_token(token_model: TokenModel) -> TokenModel:
+async def refresh_token(refresh_token: str) -> TokenModel:
     payload = {
         "grant_type": "refresh_token",
-        "refresh_token": token_model.refresh_token,
+        "refresh_token": refresh_token,
         "Content-Type": "application/x-www-form-urlencoded",
         "client_id": CLIENT_ID,
         "client_secret": CLIENT_SECRET,

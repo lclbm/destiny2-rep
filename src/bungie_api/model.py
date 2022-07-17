@@ -23,3 +23,11 @@ class TokenModel(BaseModel):
         self.refresh_expire_time = datetime.datetime.now() + datetime.timedelta(
             seconds=self.refresh_expires_in
         )
+
+    @property
+    def is_token_expired(self) -> bool:
+        return self.expire_time < datetime.datetime.now()
+
+    @property
+    def is_refresh_token_expired(self) -> bool:
+        return self.refresh_expire_time < datetime.datetime.now()
