@@ -24,6 +24,7 @@ def test():
 
 
 @app.route("/auth/fetch_token", methods=["POST", "GET"])
+# 用户点击登录按钮后在对应的bungie-oauth2完成认证后将会跳转到这个url
 async def login():
     if code := request.args.get("code", None):
         token_data = await fetch_token(code)
