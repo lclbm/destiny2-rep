@@ -1,5 +1,6 @@
 import secrets
 from uuid import uuid4
+from webbrowser import get
 from flask import Flask, abort, make_response, render_template, redirect, url_for
 from flask import request, session, flash
 
@@ -13,9 +14,29 @@ app.secret_key = secrets.token_hex(16)
 
 # use decorators to link the function to a url
 @app.route("/")
-def home():
+async def home():
     cookies = request.cookies
-    return redirect(AUTHORIZATION_URL)  # return a string
+
+    # 如果cookies中有token
+    if token := cookies.get("token", None):
+        token_data = TokenModel.parse_raw(token)
+
+        # 如果refresh_token过期
+        if token_data.is_refresh_token_expired:
+            response = make_response(redirect(AUTHORIZATION_URL))
+            response.delete_cookie("token")
+            return response
+
+        # 如果token过期，但refresh_token没过期
+        if token_data.is_token_expired:
+            token_data = await refresh_token(token_data.refresh_token)
+            response = make_response("refresh token")
+            response.set_cookie("token", token_data.json())
+            return response
+
+    # 如果cookies中没有token，则跳转到登录页面
+    else:
+        return redirect(AUTHORIZATION_URL)  # return a string
 
 
 @app.route("/test")
