@@ -1,0 +1,64 @@
+<html>
+
+<head>
+  <title>Flask Intro - login page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.0-beta1/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.0-beta1/css/bootstrap.min.css" rel="stylesheet"
+    media="screen">
+  <link href="../static/index.css" rel="stylesheet" media="screen">
+</head>
+
+<body>
+  <div class="container">
+    <div class="container" id="header">
+
+      <div class="row align-items-center">
+        <div class="col" id="logo">
+          <a href="/">
+            <img src="https://steamrepcn.com/images/logo.png" alt="logo">
+          </a>
+        </div>
+
+        <div class="col-auto" id="login">
+          <a class="btn btn-outline-primary" href="{{login_url}}" role="button"
+            style="width: 8rem;font-size:1.2rem">登录</a>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="container" id="content-box">
+      <div class="container">
+        <div class="row align-items-start justify-content-evenly">
+          <div class="col-6">
+            <div class="search" id="search-box">
+              <div style="font-size: 2rem; margin-bottom:0.7rem">搜索用户</div>
+              <div class="search-bar">
+                <input type="text" class="form-control" placeholder="输入你要查询的玩家ID">
+                <button class="btn btn-primary" style="font-size: 1.1rem;">搜索</button>
+                <div style="color:grey; padding-top:5px; text-align:right;">*可以输入玩家的bungieID或steam64位码</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-5">
+            <div style="font-size: 2rem; margin-bottom:0.7rem">网站说明</div>
+            <div>D2Rep是一个记录命运2玩家信誉的网站，通过玩家之间的评价来反映玩家的信誉。使用Bungie账号登录后，你可以给予玩家相关评价。</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+
+</body>
+
+</html>
