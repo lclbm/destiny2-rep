@@ -36,7 +36,8 @@ async def home():
 
     # 如果cookies中没有token，则跳转到登录页面
     else:
-        return redirect(AUTHORIZATION_URL)  # return a string
+        response = make_response(render_template("login.html",login_url=AUTHORIZATION_URL))
+        return response
 
 
 @app.route("/test")
@@ -72,4 +73,4 @@ async def refresh():
 
 # start the server with the 'run()' method
 if __name__ == "__main__":
-    app.run(debug=True, ssl_context=("ca/cert.pem", "ca/key.pem"), use_reloader=False)
+    app.run(debug=True, ssl_context=("ca/cert.pem", "ca/key.pem"))

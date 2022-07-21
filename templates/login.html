@@ -1,23 +1,36 @@
 <html>
-  <head>
-    <title>Flask Intro - login page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.0-beta1/css/bootstrap.min.css" rel="stylesheet" media="screen">
-  </head>
-  <body>
-    <div class="container">
-      <h1>Please login</h1>
-      <br>
-      <form action="" method="post">
-        <input type="text" placeholder="Username" name="username" value="{{
-          request.form.username }}">
-         <input type="password" placeholder="Password" name="password" value="{{
-          request.form.password }}">
-        <input class="btn btn-default" type="submit" value="Login">
-      </form>
-      {% if error %}
-        <p class="error"><strong>Error:</strong> {{ error }}
-      {% endif %}
+
+<head>
+  <title>Flask Intro - login page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.0-beta1/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.0-beta1/css/bootstrap.min.css" rel="stylesheet"
+    media="screen">
+  <link href="{{url_for('static', filename='index.css')}}" rel="stylesheet" media="screen">
+</head>
+
+<body>
+  <div class="container">
+    <div class="container" id="header">
+
+      <div class="row align-items-center">
+        <div class="col" id="logo">
+          <a href="/">
+            <img src="https://steamrepcn.com/images/logo.png" alt="logo">
+          </a>
+        </div>
+
+        <div class="col-auto" id="login">
+          <a class="btn btn-outline-primary" href="{{login_url}}" role="button"
+            style="width: 8rem;font-size:1.2rem">登录</a>
+        </div>
+
+      </div>
     </div>
-  </body>
+  </div>
+
+
+
+</body>
+
 </html>

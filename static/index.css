@@ -1,0 +1,11 @@
+#header {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+a:active,
+a:hover,
+a:link,
+a:visited {
+    text-decoration: none
+}
