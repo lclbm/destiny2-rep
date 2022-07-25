@@ -1,4 +1,4 @@
-const HEADERS = {"X-API-Key": ""}
+import { HEADERS } from "./config.js";
 
 async function request(url, type, data = {}) {
     if (type === "GET") {
