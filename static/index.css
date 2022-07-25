@@ -43,10 +43,14 @@ body {
 
 .search button {
     position: absolute;
-    bottom: 42px;
+    top: 10px;
     right: 10px;
     height: 40px;
     width: 110px;
     background: #0d6efd;
 
+}
+
+#show-box{
+    margin-top: 50px;
 }
