@@ -3,23 +3,24 @@
     margin-bottom: 50px;
 }
 
-a:active,
-a:hover,
-a:link,
-a:visited {
-    text-decoration: none
-}
 body {
     background-color: #eee;
     font-weight: 300;
     font-size: 18px;
 }
 
+
+
+
 #content-box {
     margin-top: 80px;
 }
 
-.search-bar{
+#content-box .left {
+    margin-right: 20px;
+}
+
+.search-bar {
     position: relative;
 }
 
@@ -41,7 +42,7 @@ body {
     left: 16px;
 }
 
-.search button {
+#search_button {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -51,6 +52,17 @@ body {
 
 }
 
-#show-box{
-    margin-top: 50px;
+#show-box {
+    margin-top: 70px;
+}
+
+#show-box .num {
+    font-size: 40px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#show-box .title {
+    font-size: 30px;
+    text-align: center;
 }

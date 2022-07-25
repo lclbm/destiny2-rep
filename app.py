@@ -1,6 +1,4 @@
 import secrets
-from uuid import uuid4
-from webbrowser import get
 from flask import Flask, abort, make_response, render_template, redirect, url_for
 from flask import request, session, flash
 
@@ -8,11 +6,9 @@ from src.config import *
 from src.bungie_api.model import TokenModel
 from src.bungie_api.oauth import fetch_token, refresh_token
 
-# create the application object
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 
-# use decorators to link the function to a url
 @app.route("/")
 async def home():
     cookies = request.cookies
@@ -36,7 +32,9 @@ async def home():
 
     # 如果cookies中没有token，则跳转到登录页面
     else:
-        response = make_response(render_template("login.html",login_url=AUTHORIZATION_URL))
+        response = make_response(
+            render_template("login.html", login_url=AUTHORIZATION_URL)
+        )
         return response
 
 

@@ -1,5 +1,5 @@
 <html>
-
+  
 <head>
   <title>Flask Intro - login page</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +7,15 @@
   <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.0-beta1/css/bootstrap.min.css" rel="stylesheet"
     media="screen">
   <link href="../static/index.css" rel="stylesheet" media="screen">
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script type="text/javascript" src="../static/index.js"></script>
 </head>
 
 <body>
   <div class="container">
     <div class="container" id="header">
 
-      <div class="row align-items-center">
+      <div class="row align-items-center  justify-content-between">
         <div class="col" id="logo">
           <a href="/">
             <img src="https://steamrepcn.com/images/logo.png" alt="logo">
@@ -33,18 +35,19 @@
     <div class="container" id="content-box">
       <div class="row align-items-start justify-content-between">
 
-        <div class="col-6">
+        <div class="col-8 left">
           <div class="search" id="search-box">
             <div style="font-size: 2rem; margin-bottom:0.7rem">搜索用户</div>
             <div class="search-bar">
-              <input type="text" class="form-control" placeholder="输入你要查询的玩家ID">
-              <button class="btn btn-primary" style="font-size: 1.1rem;">搜索</button>
+              <input type="text" id="search_input" class="form-control" placeholder="输入你要查询的玩家ID">
+              <button class="btn btn-primary" id="search_button" style="font-size: 1.1rem;">搜索</button>
             </div>
             <div style="color:grey; padding-top:5px; text-align:right;">*可以输入玩家的bungieID或steam64位码</div>
+            <div id="searchAlertPlaceholder"></div>
           </div>
         </div>
 
-        <div class="col-5">
+        <div class="col right">
           <div style="font-size: 2rem; margin-bottom:0.7rem">网站说明</div>
           <div>D2Rep是一个记录命运2玩家信誉的网站，通过玩家之间的评价来反映玩家的信誉。使用Bungie账号登录后，你可以给予玩家相关评价。</div>
         </div>
@@ -55,21 +58,21 @@
 
 
     <div class="container" id="show-box">
-      <div class="row justify-content-between">
-        <div class="col">
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
+      <div class="row justify-content-evenly">
+
+        <div class="col-auto item">
+          <div class="title">收录用户</div>
+          <div class="num">0</div>
         </div>
-        <div class="col">
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
+
+        <div class="col-auto item">
+          <div class="title">评价次数</div>
+          <div class="num">0</div>
         </div>
-        <div class="col">
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
+
+        <div class="col-auto item">
+          <div class="title">好评次数</div>
+          <div class="num">0</div>
         </div>
       </div>
     </div>

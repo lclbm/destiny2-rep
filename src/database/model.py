@@ -5,7 +5,7 @@ db = Database()
 
 
 class User(db.Entity):
-    bungie_membership_id = Required(int, unique=True)
+    bungie_membership_id = Optional(int)
     membership_type = Required(str, max_len=1)
     membership_id = Required(str, max_len=19)
     last_login_time = Optional(datetime.datetime)
@@ -15,7 +15,7 @@ class User(db.Entity):
     sent_comments = Set("Comment", reverse="from_user")
 
     score = Optional(int)
-    PrimaryKey(bungie_membership_id)
+    PrimaryKey(membership_type, membership_id)
 
 
 class Comment(db.Entity):
