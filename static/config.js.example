@@ -1,1 +1,5 @@
-export const HEADERS = {"X-API-Key": ""};
+export const X_API_KEY = "123";
+export const CLIENT_ID = 123;
+export const CLIENT_SECRET = "123";
+export const HEADERS = { "X-API-Key": X_API_KEY };
+

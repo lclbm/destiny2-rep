@@ -1,89 +1,22 @@
-import { HEADERS } from "./config.js";
+import { DestinyApi } from "./destiny_api.js";
+import Cookies from './modules/js.cookie.mjs';
 
-async function request(url, type, data = {}) {
-    var resp;
-    if (type === "GET") {
-        resp = await fetch(
-            url, {
-            method: "GET",
-            headers: HEADERS
-        }
-        );
-    } else {
-        resp = await fetch(
-            url, {
-            method: "POST",
-            headers: HEADERS,
-            body: JSON.stringify(data)
-        }
-        );
-    }
-    var json = await resp.json();
-    if (!resp.ok) {
-        throw new Error(json.Message);
-    }
-    return json;
-}
-
-
-async function search_steam_name(steamId) {
-    return await request(`https://www.bungie.net/Platform/User/GetMembershipFromHardLinkedCredential/SteamId/${steamId}/`, "GET");
-}
-
-
-async function search_bungie_name(name) {
-
-    var nameReg = /^(.+)#(\d{3,4})$/;
-    var groups = nameReg.exec(name);
-
-    if (groups) {
-        var perfixName = groups[1];
-        var nameCode = groups[2];
-        var page = 0;
-        while (true) {
-            let resp = await request(`https://www.bungie.net/Platform/User/Search/GlobalName/${page}/`, "POST", { "displayNamePrefix": perfixName });
-            for (let membershipData of resp.Response.searchResults) {
-                if (membershipData.bungieGlobalDisplayName == perfixName && membershipData.bungieGlobalDisplayNameCode == nameCode) {
-                    return membershipData;
-                }
-            }
-            if (resp.Response.hasMore) page++;
-            else {
-                throw new Error("所查询玩家ID不存在，请检查ID是否正确");
-            }
-        }
-    } else {
-        let resp = await request("https://www.bungie.net/Platform/User/Search/GlobalName/0/", "POST", { "displayNamePrefix": name });
-        if (resp.Response.searchResults.length == 0) throw new Error("所查询玩家ID不存在，请检查ID是否正确");
-        else if (resp.Response.searchResults.length > 1) throw new Error("有许多玩家重名，请使用完整BungieId进行查询（如：何志武223#5270）");
-        else if (resp.Response.searchResults.length == 1) return resp.Response.searchResults[0];
-    }
-}
-
+var API = new DestinyApi();
 
 async function search_player(name) {
     $("#searchAlertPlaceholder button").click();
-    var steamIdReg = /^7656\d{13}$/;
-    var steamId = steamIdReg.exec(name);
+    var membershipType, membershipId;
+
     try {
-        var membershipType, membershipId;
-        if (steamId) {
-            let res = await search_steam_name(steamId[0]);
-            membershipType = res.Response.membershipType;
-            membershipId = res.Response.membershipId;
-        }
-        else {
-            let res = await search_bungie_name(name);
-            membershipType = res.destinyMemberships[0].membershipType;
-            membershipId = res.destinyMemberships[0].membershipId;
-        }
-        console.log(res);
+        if (name == "") throw new Error("请输入玩家的ID");
+        [membershipType, membershipId] = await API.search_player(name);
         $("#searchAlertPlaceholder").html(`<div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top:10px">
-        <strong>玩家信息：</strong> ${membershipType} ${membershipId} 
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>`);
+            <strong>玩家信息：</strong> ${membershipType} ${membershipId} 
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>`);
         // location.assign(`/player/${membershipType}/${membershipId}`);
-    } catch (e) {
+    }
+    catch (e) {
         $("#searchAlertPlaceholder").html(`<div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top:10px">
         <strong>查询玩家出现错误：</strong> ${e.message} 
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -92,7 +25,29 @@ async function search_player(name) {
 }
 
 
-window.onload = function () {
+window.onload = async function () {
+
+    var codeReg = /^\?code=(.{32})$/;
+    var code = codeReg.exec(window.location.search);
+    if (code) {
+        let token = await API.fetch_token(code[1]);
+        Cookies.set('access_token', token.access_token, { expires: token.expires_in / 3600 });
+        Cookies.set('refresh_token', token.refresh_token, { expires: token.refresh_expires_in / 3600 });
+    }
+
+    var access_token = Cookies.get('access_token');
+    var refresh_token = Cookies.get('refresh_token');
+    if (access_token) {
+        var res = await API.fetch_membershipdata_for_current_user(access_token);
+        console.log(res);
+    }
+    else if (refresh_token) {
+        let token = await API.refresh_token(refresh_token);
+        Cookies.set('access_token', token.access_token, { expires: token.expires_in / 3600 / 24 });
+        Cookies.set('refresh_token', token.refresh_token, { expires: token.refresh_expires_in / 3600 / 24 });
+        access_token = token.access_token;
+    }
+
     $("#search_button").click(function () {
         var name = $("#search_input").val();
         search_player(name);

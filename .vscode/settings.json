@@ -1,0 +1,7 @@
+{
+    "liveServer.settings.https": {
+        "enable": true,
+        "cert": "D:/Users/User/Desktop/python-01/destiny2-rep/ca/cert.pem",
+        "key": "D:/Users/User/Desktop/python-01/destiny2-rep/ca/key.pem"
+    }
+}
