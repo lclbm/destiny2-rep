@@ -66,3 +66,13 @@ body {
     font-size: 30px;
     text-align: center;
 }
+
+#profile .col{
+    padding: 0;
+}
+#profile .buttons{
+    padding: 10;
+}
+#profile button{
+    padding: 10;
+}
