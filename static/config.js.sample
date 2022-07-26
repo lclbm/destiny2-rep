@@ -1,1 +1,0 @@
-export const HEADERS = {"X-API-Key": ""}

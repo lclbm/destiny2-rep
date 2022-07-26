@@ -55,20 +55,34 @@ async function search_bungie_name(name) {
     } else {
         let resp = await request("https://www.bungie.net/Platform/User/Search/GlobalName/0/", "POST", { "displayNamePrefix": name });
         if (resp.Response.searchResults.length == 0) throw new Error("所查询玩家ID不存在，请检查ID是否正确");
-        else if (resp.Response.searchResults.length > 1) throw new Error("有许多玩家重名，请使用完整BungieId进行查询，如：何志武223#5270");
+        else if (resp.Response.searchResults.length > 1) throw new Error("有许多玩家重名，请使用完整BungieId进行查询（如：何志武223#5270）");
         else if (resp.Response.searchResults.length == 1) return resp.Response.searchResults[0];
     }
 }
 
 
 async function search_player(name) {
+    $("#searchAlertPlaceholder button").click();
     var steamIdReg = /^7656\d{13}$/;
     var steamId = steamIdReg.exec(name);
     try {
-        var res;
-        if (steamId) res = await search_steam_name(steamId[0]);
-        else res = await search_bungie_name(name);
+        var membershipType, membershipId;
+        if (steamId) {
+            let res = await search_steam_name(steamId[0]);
+            membershipType = res.Response.membershipType;
+            membershipId = res.Response.membershipId;
+        }
+        else {
+            let res = await search_bungie_name(name);
+            membershipType = res.destinyMemberships[0].membershipType;
+            membershipId = res.destinyMemberships[0].membershipId;
+        }
         console.log(res);
+        $("#searchAlertPlaceholder").html(`<div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top:10px">
+        <strong>玩家信息：</strong> ${membershipType} ${membershipId} 
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`);
+        // location.assign(`/player/${membershipType}/${membershipId}`);
     } catch (e) {
         $("#searchAlertPlaceholder").html(`<div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top:10px">
         <strong>查询玩家出现错误：</strong> ${e.message} 
