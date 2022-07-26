@@ -33,20 +33,28 @@ window.onload = async function () {
         let token = await API.fetch_token(code[1]);
         Cookies.set('access_token', token.access_token, { expires: token.expires_in / 3600 });
         Cookies.set('refresh_token', token.refresh_token, { expires: token.refresh_expires_in / 3600 });
+        history.replaceState(null, null, "/");
     }
 
     var access_token = Cookies.get('access_token');
     var refresh_token = Cookies.get('refresh_token');
-    if (access_token) {
-        var res = await API.fetch_membershipdata_for_current_user(access_token);
-        console.log(res);
+
+    if (refresh_token) {
+        if (!access_token) {
+            let token = await API.refresh_token(refresh_token);
+            Cookies.set('access_token', token.access_token, { expires: token.expires_in / 3600 });
+            Cookies.set('refresh_token', token.refresh_token, { expires: token.refresh_expires_in / 3600 });
+        }
+        access_token = Cookies.get('access_token');
+        var membershipData = await API.fetch_membershipdata_for_current_user(access_token);
+        console.log(membershipData);
+
+    } else {
+        $("#loginPlaceHolder").html(`<a class="btn btn-outline-primary" href="https://www.bungie.net/zh-chs/oauth/authorize?client_id=40835&response_type=code" role="button"
+        style="width: 8rem;font-size:1.2rem">登录</a>`);
     }
-    else if (refresh_token) {
-        let token = await API.refresh_token(refresh_token);
-        Cookies.set('access_token', token.access_token, { expires: token.expires_in / 3600 / 24 });
-        Cookies.set('refresh_token', token.refresh_token, { expires: token.refresh_expires_in / 3600 / 24 });
-        access_token = token.access_token;
-    }
+
+
 
     $("#search_button").click(function () {
         var name = $("#search_input").val();
