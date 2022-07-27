@@ -3,7 +3,6 @@ from pony.orm import *
 
 db = Database()
 
-
 class User(db.Entity):
     bungie_membership_id = Optional(int)
     membership_type = Required(str, max_len=1)
@@ -27,6 +26,11 @@ class Comment(db.Entity):
     text = Required(LongStr)
     images = Optional(StrArray)
     create_time = Required(datetime.datetime, default=datetime.datetime.now)
+
+
+db.bind(provider="sqlite", filename="database.sqlite", create_db=True)
+db.generate_mapping(create_tables=True)
+
 
 
 if __name__ == "__main__":
