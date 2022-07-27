@@ -18,7 +18,7 @@ async def home():
 
 
 @app.route("/stats/")
-@cache.cached(30)
+@cache.cached(15)
 async def stats():
     with db_session:
         user_count = count(u for u in User)
@@ -35,6 +35,13 @@ async def stats():
     )
     resp.access_control_allow_origin = "*"
     return resp
+
+
+@app.route("/user/add/", methods=["POST"])
+async def add_user():
+    form = request.form
+    headers = request.headers
+    ...
 
 
 # start the server with the 'run()' method

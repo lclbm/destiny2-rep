@@ -3,8 +3,9 @@ from pony.orm import *
 
 db = Database()
 
+
 class User(db.Entity):
-    bungie_membership_id = Optional(int)
+    bungie_membership_id = PrimaryKey(int)
     membership_type = Required(str, max_len=1)
     membership_id = Required(str, max_len=19)
     last_login_time = Optional(datetime.datetime)
@@ -14,7 +15,6 @@ class User(db.Entity):
     sent_comments = Set("Comment", reverse="from_user")
 
     score = Optional(int)
-    PrimaryKey(membership_type, membership_id)
 
 
 class Comment(db.Entity):
@@ -30,7 +30,6 @@ class Comment(db.Entity):
 
 db.bind(provider="sqlite", filename="database.sqlite", create_db=True)
 db.generate_mapping(create_tables=True)
-
 
 
 if __name__ == "__main__":

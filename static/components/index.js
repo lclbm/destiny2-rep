@@ -61,9 +61,6 @@ export async function gen_profile() {
             await gen_login_button();
         });
     }
-
-
-
 }
 
 export async function gen_login_button() {
