@@ -50,13 +50,7 @@ window.onload = async function () {
   } catch (error) {
     console.error(error);
   }
-  
-  await gen_profile();
 
-  await gen_login_button();
-
-
-
-
+  if (await gen_profile() !== true) await gen_login_button();
 
 };

@@ -36,7 +36,6 @@ export async function gen_profile() {
 
 
     if (membershipData) {
-
         $("#loginPlaceHolder").html(`<div class="row">
             <div class="col-auto">
               <img src="https://www.bungie.net/${membershipData.Response.bungieNetUser.profilePicturePath}" alt="avatar" style="width:60;height:60;">
@@ -60,6 +59,8 @@ export async function gen_profile() {
             Cookies.remove("refresh_token");
             await gen_login_button();
         });
+        
+        return true
     }
 }
 
