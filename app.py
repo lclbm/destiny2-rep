@@ -24,13 +24,17 @@ async def stats():
         user_count = count(u for u in User)
         comment_count = count(c for c in Comment)
         positive_comment_count = count(c for c in Comment if c.is_positive)
-    return {
-        "Response": {
-            "user_count": user_count,
-            "comment_count": comment_count,
-            "positive_comment_count": positive_comment_count,
+    resp = make_response(
+        {
+            "Response": {
+                "user_count": user_count,
+                "comment_count": comment_count,
+                "positive_comment_count": positive_comment_count,
+            }
         }
-    }
+    )
+    resp.access_control_allow_origin = "*"
+    return resp
 
 
 # start the server with the 'run()' method

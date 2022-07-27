@@ -1,0 +1,25 @@
+<script type="text/javascript">
+
+    window.onload = function () {
+        if (localStorage.getItem('tabbed')) {
+            var codeReg = /^\?code=(.{32})$/;
+            var code = codeReg.exec(window.location.search);
+            if (code) {
+                localStorage.setItem('code', code[1]);
+                localStorage.setItem('tabbed', true);
+                window.close();
+            }
+        }
+    }
+
+
+</script>
+
+
+<html>
+
+<head></head>
+
+<body></body>
+
+</html>

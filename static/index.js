@@ -1,5 +1,6 @@
 import { DestinyApi } from "./destiny_api.js";
-import Cookies from './modules/js.cookie.mjs';
+
+import { gen_login_button, gen_profile } from './components/index.js';
 
 var API = new DestinyApi();
 
@@ -18,7 +19,6 @@ async function search_player(name) {
             <strong>玩家信息：</strong> ${membershipType} ${membershipId} 
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>`);
-    // location.assign(`/player/${membershipType}/${membershipId}`);
   }
   catch (e) {
     $("#searchAlertPlaceholder").html(`<div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top:10px">
@@ -31,79 +31,31 @@ async function search_player(name) {
 
 window.onload = async function () {
 
+  // 绑定搜索按钮
   $("#search_button").click(async function () {
     var name = $("#search_input").val();
     await search_player(name);
   });
 
+  // 绑定搜索框回车
   $("#search_input").on('keypress', function (e) { if (e.keyCode == 13) { $("#search_button").click(); } });
 
-
-  var codeReg = /^\?code=(.{32})$/;
-  var code = codeReg.exec(window.location.search);
-  if (code) {
-    let token = await API.fetch_token(code[1]);
-    Cookies.set('access_token', token.access_token, { expires: token.expires_in / 3600 });
-    Cookies.set('refresh_token', token.refresh_token, { expires: token.refresh_expires_in / 3600 });
-    history.replaceState(null, null, "/");
-  }
-
-  var access_token = Cookies.get('access_token');
-  var refresh_token = Cookies.get('refresh_token');
-  var membershipData;
-
+  // 获取stats数据，如果出现异常则跳过
   try {
-    if (refresh_token) {
-      // 如果refresh_token存在且未过期，access_token已过期，则刷新access_token
-      if (!access_token) {
-        let token = await API.refresh_token(refresh_token);
-        Cookies.set('access_token', token.access_token, { expires: token.expires_in / 3600 });
-        Cookies.set('refresh_token', token.refresh_token, { expires: token.refresh_expires_in / 3600 });
-      }
-      access_token = Cookies.get('access_token');
-      membershipData = await API.fetch_membershipdata_for_current_user(access_token);
-      console.log(membershipData);
-
+    var stats = await fetch_stats();
+    for (let key in stats.Response) {
+      let v = stats.Response[key];
+      $(`#${key}PlaceHolder`).html(v);
     }
   } catch (error) {
-    Cookies.remove('access_token');
-    Cookies.remove('refresh_token');
+    console.error(error);
   }
+  
+  await gen_profile();
 
-  if (membershipData) {
-    $("#loginPlaceHolder").html(`<div class="row">
-        <div class="col-auto">
-          <img src="https://www.bungie.net/${membershipData.Response.bungieNetUser.profilePicturePath}" alt="avatar" style="width:60;height:60;">
-        </div>
-        <div class="col">
-          <div class="row" style="font-weight:600;">
-          ${membershipData.Response.bungieNetUser.uniqueName}</div>
-          <div class="row buttons">
-            <div class="col-auto">
-              <button id="profile-button" type="button" class="btn"><i class="bi bi-person"></i></button>
-            </div>
-            <div class="col-auto">
-              <button id="logout-button" type="button" class="btn"><i class="bi bi-box-arrow-right"></i></button>
-            </div>
-          </div>
-        </div>
-      </div>`);
-    $("#logout-button").click(function () {
-      Cookies.remove("access_token");
-      Cookies.remove("refresh_token");
-      $("#loginPlaceHolder").html(`<a class="btn btn-outline-primary" href="https://www.bungie.net/zh-chs/oauth/authorize?client_id=40835&response_type=code" role="button"
-        style="width: 8rem;font-size:1.2rem">登录</a>`);
-    });
-  } else {
-    $("#loginPlaceHolder").html(`<a class="btn btn-outline-primary" href="https://www.bungie.net/zh-chs/oauth/authorize?client_id=40835&response_type=code" role="button"
-        style="width: 8rem;font-size:1.2rem">登录</a>`);
-  }
+  await gen_login_button();
 
-  var stats = await fetch_stats();
-  for (let key in stats.Response) {
-    let v = stats.Response[key];
-    $(`#${key}PlaceHolder`).html(v);
-  }
+
 
 
 
