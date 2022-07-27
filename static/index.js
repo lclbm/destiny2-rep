@@ -27,14 +27,14 @@ async function search_player(name) {
 
 window.onload = async function () {
 
-    $("#search_button").click(function () {
+    $("#search_button").click(async function () {
         var name = $("#search_input").val();
-        search_player(name);
+        await search_player(name);
     });
 
     $("#search_input").on('keypress', function (e) { if (e.keyCode == 13) { $("#search_button").click(); } });
 
-    
+
     var codeReg = /^\?code=(.{32})$/;
     var code = codeReg.exec(window.location.search);
     if (code) {
@@ -67,8 +67,22 @@ window.onload = async function () {
     }
 
     if (membershipData) {
-        // $("#loginPlaceHolder").html(`<a class="btn btn-outline-primary" href="https://www.bungie.net/zh-chs/oauth/authorize?client_id=40835&response_type=code" role="button"
-        // style="width: 8rem;font-size:1.2rem">登录</a>`);
+        $("#loginPlaceHolder").html(`<div class="row" style="font-weight:600;">
+        ${membershipData.Response.bungieNetUser.uniqueName}</div>
+      <div class="row buttons justify-content-end">
+        <div class="col-auto">
+          <button id="profile-button" type="button" class="btn"><i class="bi bi-person"></i></button>
+        </div>
+        <div class="col-auto">
+          <button id="logout-button" type="button" class="btn"><i class="bi bi-box-arrow-right"></i></button>
+        </div>
+      </div>`);
+        $("#logout-button").click(function () {
+            Cookies.remove("access_token");
+            Cookies.remove("refresh_token");
+            $("#loginPlaceHolder").html(`<a class="btn btn-outline-primary" href="https://www.bungie.net/zh-chs/oauth/authorize?client_id=40835&response_type=code" role="button"
+        style="width: 8rem;font-size:1.2rem">登录</a>`);
+        });
     } else {
         $("#loginPlaceHolder").html(`<a class="btn btn-outline-primary" href="https://www.bungie.net/zh-chs/oauth/authorize?client_id=40835&response_type=code" role="button"
         style="width: 8rem;font-size:1.2rem">登录</a>`);

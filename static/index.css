@@ -67,12 +67,9 @@ body {
     text-align: center;
 }
 
-#profile .col{
-    padding: 0;
+#loginPlaceHolder .buttons>.col-auto{
+    padding: 0px;
 }
-#profile .buttons{
-    padding: 10;
-}
-#profile button{
-    padding: 10;
+#loginPlaceHolder .buttons button{
+    padding: 12px;
 }
