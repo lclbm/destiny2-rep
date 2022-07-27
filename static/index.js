@@ -67,14 +67,21 @@ window.onload = async function () {
     }
 
     if (membershipData) {
-        $("#loginPlaceHolder").html(`<div class="row" style="font-weight:600;">
-        ${membershipData.Response.bungieNetUser.uniqueName}</div>
-      <div class="row buttons justify-content-end">
+        $("#loginPlaceHolder").html(`<div class="row">
         <div class="col-auto">
-          <button id="profile-button" type="button" class="btn"><i class="bi bi-person"></i></button>
+          <img src="https://www.bungie.net/${membershipData.Response.bungieNetUser.profilePicturePath}" alt="avatar" style="width:60;height:60;">
         </div>
-        <div class="col-auto">
-          <button id="logout-button" type="button" class="btn"><i class="bi bi-box-arrow-right"></i></button>
+        <div class="col">
+          <div class="row" style="font-weight:600;">
+          ${membershipData.Response.bungieNetUser.uniqueName}</div>
+          <div class="row buttons">
+            <div class="col-auto">
+              <button id="profile-button" type="button" class="btn"><i class="bi bi-person"></i></button>
+            </div>
+            <div class="col-auto">
+              <button id="logout-button" type="button" class="btn"><i class="bi bi-box-arrow-right"></i></button>
+            </div>
+          </div>
         </div>
       </div>`);
         $("#logout-button").click(function () {
