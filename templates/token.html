@@ -6,7 +6,7 @@
             var code = codeReg.exec(window.location.search);
             if (code) {
                 localStorage.setItem('code', code[1]);
-                localStorage.setItem('tabbed', true);
+                localStorage.setItem('tabbed', false);
                 window.close();
             }
         }
@@ -14,7 +14,6 @@
 
 
 </script>
-
 
 <html>
 
