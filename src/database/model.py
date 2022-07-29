@@ -7,13 +7,13 @@ db = Database()
 class User(db.Entity):
     bungie_membership_id = Optional(int)
     membership_type = Required(int)
-    membership_id = Required(int,size=64)
+    membership_id = Required(int, size=64)
     tags = Optional(StrArray)
 
     received_comments = Set("Comment", reverse="to_user")
     sent_comments = Set("Comment", reverse="from_user")
 
-    score = Optional(int)
+    score = Optional(int, default=0)
     PrimaryKey(membership_type, membership_id)
 
 
