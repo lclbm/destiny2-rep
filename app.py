@@ -49,6 +49,8 @@ async def add_user():
     membership_type = request.form.get("membership_type", None)
     membership_id = request.form.get("membership_id", None)
 
+    form = {k: v if v != "undefined" else None for k, v in request.form.items()}
+
     if not (membership_type and membership_id):
         return {"Response": {}, "Message": "Missing parameters"}, 400
 
@@ -59,7 +61,7 @@ async def add_user():
             return {"Response": {}, "Message": "User already exists"}, 400
         else:
             try:
-                User(**request.form)
+                User(**form)
                 return {"Response": {}}, 200
             except Exception as e:
                 return {"Response": {}, "Message": str(e)}, 400
