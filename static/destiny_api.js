@@ -23,7 +23,6 @@ export class DestinyApi {
         );
         var json = await resp.json();
         if (!resp.ok) {
-            console.error(json);
             if (json.Message) throw new Error(json.Message);
             else throw new Error("获取失败");
         }

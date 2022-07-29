@@ -59,7 +59,7 @@ export async function gen_profile() {
             Cookies.remove("refresh_token");
             await gen_login_button();
         });
-        
+
         return true
     }
 }
