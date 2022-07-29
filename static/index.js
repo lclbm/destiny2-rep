@@ -28,9 +28,7 @@ async function search_player(name) {
   }
 }
 
-
-window.onload = async function () {
-
+$(async function () {
   // 绑定搜索按钮
   $("#search_button").click(async function () {
     var name = $("#search_input").val();
@@ -40,17 +38,18 @@ window.onload = async function () {
   // 绑定搜索框回车
   $("#search_input").on('keypress', function (e) { if (e.keyCode == 13) { $("#search_button").click(); } });
 
-  // 获取stats数据，如果出现异常则跳过
-  try {
-    var stats = await fetch_stats();
-    for (let key in stats.Response) {
-      let v = stats.Response[key];
-      $(`#${key}PlaceHolder`).html(v);
-    }
-  } catch (error) {
-    console.error(error);
+})
+
+$(async function () {
+  // 获取stats数据
+  var stats = await fetch_stats();
+  for (let key in stats.Response) {
+    let v = stats.Response[key];
+    $(`#${key}PlaceHolder`).html(v);
   }
+})
 
+$(async function () {
+  // 视情况生成登录按钮或个人资料
   if (await gen_profile() !== true) await gen_login_button();
-
-};
+})
