@@ -7,6 +7,9 @@ var API = new DestinyApi();
 
 const AUTHORIZE_URL = `https://www.bungie.net/zh-chs/oauth/authorize?client_id=${CLIENT_ID}&response_type=code`;
 
+async function login_session() {
+    await API.request(`https://127.0.0.1:5000/login/`)
+}
 
 export async function gen_profile() {
 
@@ -54,11 +57,14 @@ export async function gen_profile() {
             </div>
           </div>`);
 
+
         $("#logout-button").click(async function () {
             Cookies.remove("access_token");
             Cookies.remove("refresh_token");
             await gen_login_button();
         });
+
+        await login_session();
 
         return true
     }
