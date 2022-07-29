@@ -5,14 +5,15 @@ import { gen_login_button, gen_profile } from './components/index.js';
 var API = new DestinyApi();
 
 async function fetch_stats() {
-  return await API.request('https://127.0.0.1:5000/stats/', { 'method': 'GET' });
+  return await API.request('https://127.0.0.1:5000/stats/');
 }
 
 
-async function add_user(membership_type, membership_id) {
+async function add_user(membership_type, membership_id, bungie_membership_id) {
   var data = new FormData();
   data.append('membership_type', membership_type);
   data.append('membership_id', membership_id);
+  data.append('bungie_membership_id', bungie_membership_id);
   await API.request('https://127.0.0.1:5000/user/add/',
     {
       method: 'POST',
