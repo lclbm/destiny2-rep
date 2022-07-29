@@ -34,14 +34,37 @@ async def stats():
         }
     )
     resp.access_control_allow_origin = "*"
-    return resp
+    return resp, 200
+
+
+@app.route("/login/")
+async def login():
+    session["is_logged_in"] = True
+    return {"Response": {}}, 200
 
 
 @app.route("/user/add/", methods=["POST"])
 async def add_user():
-    form = request.form
-    headers = request.headers
-    ...
+
+    is_logged_in = session.get("is_logged_in", False)
+    # if not is_logged_in:
+    #     return {"Response": {}, "Message": "Unauthorized"}, 401
+
+    membership_type = request.form.get("membership_type", None)
+    membership_id = request.form.get("membership_id", None)
+
+    if not (membership_type and membership_id):
+        return {"Response": {}, "Message": "Missing parameters"}, 400
+
+    # 判断用户是否存在
+    with db_session:
+        if user := User.get(
+            membership_type=membership_type, membership_id=membership_id
+        ):
+            return {"Response": {}, "Message": "User already exists"}, 400
+        else:
+            User(**request.form)
+            return {"Response": {}}, 200
 
 
 # start the server with the 'run()' method
