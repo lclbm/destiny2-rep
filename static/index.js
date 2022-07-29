@@ -8,6 +8,18 @@ async function fetch_stats() {
   return await API.request('https://127.0.0.1:5000/stats/', { 'method': 'GET' });
 }
 
+
+async function add_user(membership_type, membership_id) {
+  var data = new FormData();
+  data.append('membership_type', membership_type);
+  data.append('membership_id', membership_id);
+  await API.request('https://127.0.0.1:5000/user/add/',
+    {
+      method: 'POST',
+      body: data,
+    });
+}
+
 async function search_player(name) {
   $("#searchAlertPlaceholder button").click();
   var membershipType, membershipId;
@@ -15,6 +27,7 @@ async function search_player(name) {
   try {
     if (name == "") throw new Error("请输入玩家的ID");
     [membershipType, membershipId] = await API.search_player(name);
+    await add_user(membershipType, membershipId);
     $("#searchAlertPlaceholder").html(`<div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top:10px">
             <strong>玩家信息：</strong> ${membershipType} ${membershipId} 
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
