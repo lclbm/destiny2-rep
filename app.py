@@ -33,7 +33,6 @@ async def stats():
             }
         }
     )
-    resp.access_control_allow_origin = "*"
     return resp, 200
 
 
