@@ -9,12 +9,9 @@ body {
     font-size: 18px;
 }
 
-#content-box {
-    margin-top: 80px;
-}
 
-#content-box .left {
-    margin-right: 20px;
+#content-box {
+    margin-top: 40px;
 }
 
 .search-bar {
@@ -69,4 +66,8 @@ body {
 }
 #loginPlaceHolder .buttons button{
     padding: 12px;
+}
+
+#profile-box {
+    margin-top: 60px;
 }
