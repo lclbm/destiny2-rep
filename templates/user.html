@@ -53,12 +53,23 @@
 
 
   <div class="container" id="profile-box">
-    <div class="row align-items-start">
-      <div class="col-4 left">
-        左
+    <div class="row align-items-center justify-content-center">
+      <div class="col-auto">
+        <img
+          src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg"
+          style="border-radius:120px">
       </div>
-      <div class="col-4 right">
-        右
+
+
+    </div>
+    <br>
+    <br>
+    <div class="row align-items-start justify-content-between">
+      <div class="col-md-6 left">
+        <div class="row">左</div>
+      </div>
+      <div class="col-md-4 right">
+        <div class="row">右</div>
       </div>
 
     </div>
@@ -90,5 +101,23 @@
 
   </div>
 </body>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="ModalLabel">出错啦！</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        所查询的玩家ID不符合规范，请检查后重试。
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </html>

@@ -129,5 +129,11 @@ export class DestinyApi {
         return resp;
     }
 
+    async fetch_membershipdata_by_id(membership_type, membership_id) {
+        var resp = await this.request(`https://www.bungie.net/Platform/User/GetMembershipsById/${membership_id}/${membership_type}/`,
+            { headers: HEADERS });
+        return resp;
+    }
+
 
 }

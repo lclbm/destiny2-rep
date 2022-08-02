@@ -71,3 +71,13 @@ body {
 #profile-box {
     margin-top: 60px;
 }
+
+#profile-box .left{
+    border: 5px solid #d6d4d4;
+    border-radius: 10px;
+}
+
+#profile-box .right{
+    border: 5px solid #d6d4d4;
+    border-radius: 10px;
+}

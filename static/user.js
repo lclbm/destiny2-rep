@@ -3,6 +3,12 @@ import { DestinyApi } from "./destiny_api.js";
 import { gen_login_button, gen_profile } from './components/index.js';
 
 var API = new DestinyApi();
+var membership_type;
+var membership_id;
+var membership_data;
+
+
+
 
 async function fetch_stats() {
   return await API.request('https://127.0.0.1:5000/stats/');
@@ -66,4 +72,33 @@ $(async function () {
 $(async function () {
   // 视情况生成登录按钮或个人资料
   if (await gen_profile() !== true) await gen_login_button();
+});
+
+$(async function () {
+  // 根据params获取玩家信息
+  var search = window.location.search;
+  var reg = /^\?membership_type=(\d)&membership_id=(\d{19})$/;
+  var groups = search.match(reg);
+
+  
+  // 匹配成功，获取玩家的数据
+  if (groups) {
+    membership_type = groups[1];
+    membership_id = groups[2];
+    membership_data = await API.fetch_membershipdata_by_id(membership_type, membership_id);
+    console.log(membership_data);
+  }
+
+  // 输入的不是正确的membership_type或membership_id
+  else {
+    
+    var myModal = new bootstrap.Modal($('#myModal'));
+
+    $("#myModal").on('hidden.bs.modal', function (event) {
+      window.location.href = "./index.html";
+    });
+
+    myModal.show();
+  }
+
 });
