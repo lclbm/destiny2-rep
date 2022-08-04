@@ -34,7 +34,7 @@ async function search_player(name) {
   try {
     if (name == "") throw new Error("请输入玩家的ID");
     [membershipType, membershipId] = await API.search_player(name);
-    await add_user(membershipType, membershipId);
+    window.location.href = `./user.html?membership_type=${membershipType}&membership_id=${membershipId}`;
     $("#searchAlertPlaceholder").html(`<div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top:10px">
             <strong>玩家信息：</strong> ${membershipType} ${membershipId} 
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
