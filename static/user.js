@@ -85,6 +85,16 @@ $(async function () {
     membership_id = groups[2];
     membership_data = await API.fetch_membershipdata_by_id(membership_type, membership_id);
     console.log(membership_data);
+    $('#profile-box #avatr img').attr('src', `https://www.bungie.net${membership_data.Response.bungieNetUser.profilePicturePath}`);
+    $("#profile-box #user-name").html(membership_data.Response.bungieNetUser.displayName);
+    var logo_html = '';
+    for (let membership of membership_data.Response.destinyMemberships) {
+      let iconPath = membership.iconPath;
+      logo_html+=`<div class="col-auto">
+      <img src="https://www.bungie.net${iconPath}">
+    </div>`;
+    }
+    $("#profile-box #logo").html(logo_html);
   }
 
   // 输入的不是正确的membership_type或membership_id

@@ -61,10 +61,11 @@ body {
     text-align: center;
 }
 
-#loginPlaceHolder .buttons>.col-auto{
+#loginPlaceHolder .buttons>.col-auto {
     padding: 0px;
 }
-#loginPlaceHolder .buttons button{
+
+#loginPlaceHolder .buttons button {
     padding: 12px;
 }
 
@@ -72,12 +73,33 @@ body {
     margin-top: 60px;
 }
 
-#profile-box .left{
+#profile-box .left {
     border: 5px solid #d6d4d4;
     border-radius: 10px;
 }
 
-#profile-box .right{
+#profile-box .right {
     border: 5px solid #d6d4d4;
     border-radius: 10px;
+}
+
+
+#profile-box #avatr{
+    margin: 0 10px 0 0;
+}
+
+#profile-box #user-name{
+    margin-bottom: 5px;
+}
+
+
+#profile-box #logo div{
+    padding: 0px;
+    margin: 0 8px;
+}
+
+#profile-box #logo img {
+    background-color: dimgray;
+    width: 30px;
+    height: 30px;
 }
