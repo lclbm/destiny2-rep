@@ -1,6 +1,6 @@
 import { DestinyApi } from "./destiny_api.js";
 
-import { gen_login_button, gen_profile } from './components/index.js';
+import { gen_login_button, gen_profile } from './components/header.js';
 
 var API = new DestinyApi();
 

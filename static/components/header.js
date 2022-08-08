@@ -39,6 +39,16 @@ export async function gen_profile() {
 
 
     if (membershipData) {
+
+        let primaryMembershipId = membershipData.Response.primaryMembershipId;
+        let membershipType;
+        for (let membership of membershipData.Response.destinyMemberships) {
+            if (membership.membershipId == primaryMembershipId) {
+                membershipType = membership.membershipType;
+                break;
+            }
+        }
+
         $("#loginPlaceHolder").html(`<div class="row">
             <div class="col-auto">
               <img src="https://www.bungie.net/${membershipData.Response.bungieNetUser.profilePicturePath}" alt="avatar" style="width:60;height:60;">
@@ -58,6 +68,9 @@ export async function gen_profile() {
           </div>`);
 
 
+        $("#profile-button").click(function () {
+            window.location.href = `./user.html?membership_type=${membershipType}&membership_id=${primaryMembershipId}`;
+        });
         $("#logout-button").click(async function () {
             Cookies.remove("access_token");
             Cookies.remove("refresh_token");
@@ -66,7 +79,7 @@ export async function gen_profile() {
 
         await login_session();
 
-        return true
+        return true;
     }
 }
 

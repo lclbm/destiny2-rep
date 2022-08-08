@@ -1,13 +1,11 @@
 import { DestinyApi } from "./destiny_api.js";
 
-import { gen_login_button, gen_profile } from './components/index.js';
+import { gen_login_button, gen_profile } from './components/header.js';
 
 var API = new DestinyApi();
 var membership_type;
 var membership_id;
 var membership_data;
-
-
 
 
 async function fetch_stats() {
@@ -80,7 +78,7 @@ $(async function () {
   var reg = /^\?membership_type=(\d)&membership_id=(\d{19})$/;
   var groups = search.match(reg);
 
-  
+
   // 匹配成功，获取玩家的数据
   if (groups) {
     membership_type = groups[1];
@@ -91,7 +89,7 @@ $(async function () {
 
   // 输入的不是正确的membership_type或membership_id
   else {
-    
+
     var myModal = new bootstrap.Modal($('#myModal'));
 
     $("#myModal").on('hidden.bs.modal', function (event) {

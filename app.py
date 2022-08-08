@@ -45,6 +45,9 @@ async def login():
 @app.route("/user/add/", methods=["POST"])
 async def add_user():
 
+    if not session.get("is_logged_in", False):
+        return {"Response": {}, "Message": "Unauthorized"}, 401
+
     membership_type = request.form.get("membership_type", None)
     membership_id = request.form.get("membership_id", None)
 
